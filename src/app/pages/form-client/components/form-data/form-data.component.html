@@ -1,0 +1,67 @@
+<div class="card container">
+  <div
+    style="display: flex; justify-content: space-between; align-items: center"
+  >
+    <h6 style="margin: 0">Datos</h6>
+    <button
+      class="btn btn-outline-primary"
+      style="border: 0"
+      (click)="toogleClient()"
+    >
+      + Añadir dato
+    </button>
+  </div>
+  <form class="mt-4" *ngIf="showFormData">
+    <div class="input-group mb-2 containerForm">
+      <div>
+        <label class="form-label">Cliente id</label>
+        <input
+          type="number"
+          name="clientId"
+          class="form-control border-secondary"
+          placeholder="Ingrese el id del cliente"
+        />
+      </div>
+      <div>
+        <label class="form-label">Variable</label>
+        <input
+          type="text"
+          name="variable"
+          class="form-control border-secondary"
+          placeholder="Ingrese la variable"
+        />
+      </div>
+      <div>
+        <label class="form-label">Valor</label>
+        <input
+          type="text"
+          name="value"
+          class="form-control border-secondary"
+          placeholder="Ingrese el valor"
+        />
+      </div>
+    </div>
+    <div style="display: flex; place-content: end">
+      <button class="btn btn-outline-dark mt-2" (click)="toogleClient()">
+        Cancelar
+      </button>
+      <button class="btn btn-primary mt-2 ms-2">Añadir</button>
+    </div>
+  </form>
+  <ul class="mt-4" *ngIf="data.length > 0; else noData">
+    <li *ngFor="let item of data" class="mt-2" style="align-items: center">
+      {{ item.variable }}: {{ item.value }}
+      <div>
+        <button class="btn btn-primary">Modificar</button>
+        <button class="btn btn-danger ms-2">Eliminar</button>
+      </div>
+    </li>
+  </ul>
+  <ng-template #noData>
+    <div class="mt-2">
+      <p style="text-align: center; font-size: 16px; font-weight: 600">
+        ¡No hay datos aún!
+      </p>
+    </div>
+  </ng-template>
+</div>

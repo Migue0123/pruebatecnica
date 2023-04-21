@@ -1,0 +1,101 @@
+<div class="container">
+  <div>
+    <b>Cargando...</b>
+  </div>
+  <div>
+    <a routerLink="" class="btn btn-outline-light btn-lg"> Atrás </a>
+    <h1 style="display: flex; justify-content: center">Formulario cliente</h1>
+    <div class="card card-client">
+      <div class="card-body">
+        <div style="display: flex; justify-content: space-between">
+          <h2>Clientes</h2>
+          <button
+            class="btn btn-outline-primary mt-2"
+            style="border: 0"
+            (click)="toggleClient()"
+          >
+            + Añadir cliente
+          </button>
+        </div>
+        <form class="mt-4" *ngIf="showAdd">
+          <div class="mb-2">
+            <label class="form-label">Nombre</label>
+            <input
+              type="text"
+              name="name"
+              [(ngModel)]="nameAdd"
+              class="form-control border-secondary"
+              placeholder="Por favor ingrese el nombre del usuario"
+            />
+          </div>
+          <div style="display: flex; place-content: end">
+            <button
+              class="btn btn-outline-secondary mt-2"
+              (click)="toggleClient()"
+            >
+              Cancelar
+            </button>
+            <button class="btn btn-primary mt-2 ms-2">Añadir</button>
+          </div>
+        </form>
+        <ul class="mt-5">
+          <li *ngFor="let client of clients; index as index">
+            <div style="width: 100%">
+              <div style="display: flex; justify-content: space-between">
+                <b>
+                  {{ client.name }}
+                </b>
+                <div>
+                  <a
+                    style="text-decoration: none"
+                    class="mt-2"
+                    (click)="toggleData(index)"
+                  >
+                    <img
+                      src="{{img}}"
+                      style="width: 10px"
+                      (click)="toggleImg($event)"
+                    />
+                  </a>
+                  <button
+                    class="btn btn-primary mt-2 ms-2"
+                    (click)="toggleUpdate(index, client.name)"
+                  >
+                    Modificar
+                  </button>
+                  <button class="btn btn-danger mt-2 ms-2">Eliminar</button>
+                </div>
+              </div>
+              <form class="mt-4 mb-4" *ngIf="indexUpdate === index">
+                <div class="mb-2">
+                  <label class="form-label">Nombre</label>
+                  <input
+                    type="text"
+                    name="name"
+                    [(ngModel)]="nameUpdate"
+                    class="form-control border-secondary"
+                    placeholder="Por favor ingrese el nombre del usuario"
+                  />
+                </div>
+                <div style="display: flex; place-content: end">
+                  <button
+                    class="btn btn-outline-secondary mt-2"
+                    (click)="toggleUpdate(null, null)"
+                  >
+                    Cancelar
+                  </button>
+                  <button class="btn btn-primary mt-2 ms-2">Actualizar</button>
+                </div>
+              </form>
+              <app-form-data
+                class="mt-2"
+                [data]="client.data"
+                *ngIf="indexData === index"
+              ></app-form-data>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
