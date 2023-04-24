@@ -11,10 +11,14 @@ export interface Data {
   value: string;
 }
 
+export interface ClientCreateDTO extends Omit<Client, 'id' | 'data'> {}
+
+export interface ClientUpdateDTO extends Omit<Client, 'data'> {}
+
 export interface DataDTO extends Omit<Data, 'id'> {}
 
-export interface DataUpdateDTO extends Omit<Data, 'id, clientId'> {}
+export interface DataUpdateDTO extends Omit<Data, 'id' | 'clientId'> {}
 
 export interface ClientRes {
-  data: Client[]
+  data: Client[];
 }

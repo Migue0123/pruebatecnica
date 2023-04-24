@@ -1,95 +1,60 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Client, ClientRes, Data, DataDTO, DataUpdateDTO } from '../models/client';
-import { Observable, delay, of } from 'rxjs';
+import {
+  Client,
+  ClientCreateDTO,
+  ClientRes,
+  ClientUpdateDTO,
+  Data,
+  DataDTO,
+  DataUpdateDTO,
+} from '../models/client';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { AppState } from '../state/app.state';
+import { loadedClients } from '../state/actions/client.actions';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClientService {
-  constructor(private http: HttpClient) {}
+  private apiUrl = 'https://pruebaapicidet.azurewebsites.net/api/';
 
-  getDataFalse(): Observable<ClientRes> {
-    return this.http.get<ClientRes>('https://pruebaapicidet.azurewebsites.net/api/client')
-    /* const clients = [
-      {
-        id: 1,
-        name: 'Ana',
-        data: [
-          {
-            id: 1,
-            clientId: 1,
-            variable: 'Genero',
-            value: 'M',
-          },
-        ],
-      },
-      {
-        id: 2,
-        name: 'Juan',
-        data: [],
-      },
-      {
-        id: 3,
-        name: 'Pepito',
-        data: [],
-      },
-      {
-        id: 4,
-        name: 'Jose',
-        data: [],
-      },
-      {
-        id: 5,
-        name: 'Daniela',
-        data: [],
-      },
-    ];
+  constructor(private http: HttpClient, private store: Store<AppState>) {}
 
-    return of(clients).pipe(delay(1500)); */
+  getClients(): Observable<ClientRes> {
+    return this.http.get<ClientRes>(`${this.apiUrl}client`);
   }
 
-  getClients() {
-    this.http.get<Client>('');
+  createClient(dto: ClientCreateDTO) {
+    return this.http.post<Client>(`${this.apiUrl}client`, dto);
   }
 
-  createClient(name: string) {
-    this.http.post<Client>('', {
-      params: {
-        name,
-      },
-    });
+  createData(dto: DataDTO) {
+    return this.http.post<Data>(`${this.apiUrl}data`, dto);
   }
 
-  createData(params: DataDTO) {
-    this.http.post<Data>('', {
-      params: {
-        params,
-      },
-    });
-  }
-
-  updateClient(id: number, name: string) {
-    this.http.put<boolean>(`?id=${id}`, {
-      params: {
-        name,
-      },
+  updateClient(dto: ClientUpdateDTO) {
+    return this.http.put<boolean>(`${this.apiUrl}client?id=${dto.id}`, {
+      name: dto.name,
     });
   }
 
   updateData(id: number, dto: DataUpdateDTO) {
-    this.http.put<boolean>(`?id=${id}`, {
-      params: {
-        dto,
-      },
-    });
+    return this.http.put<boolean>(`${this.apiUrl}data?Id=${id}`, dto);
   }
 
   deleteClient(id: number) {
-    this.http.delete<boolean>(`${id}`);
+    return this.http.delete<boolean>(`${this.apiUrl}client/${id}`);
   }
 
   deleteData(id: number) {
-    this.http.delete<boolean>(`${id}`);
+    return this.http.delete<boolean>(`${this.apiUrl}data/${id}`);
+  }
+
+  updateClientList() {
+    return this.getClients().subscribe((res) => {
+      this.store.dispatch(loadedClients({ clients: res.data }));
+    });
   }
 }

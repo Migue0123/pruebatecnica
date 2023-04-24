@@ -8,12 +8,13 @@ import { FormMunicipalityComponent } from './pages/form-municipality/form-munici
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { FormsModule } from '@angular/forms';
 import { FormDataComponent } from './pages/form-client/components/form-data/form-data.component';
-import { NameFieldComponent } from './pages/form-client/components/name-field/name-field.component';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { clientReducer } from './state/reducers/client.reducers';
 import { ROOT_REDUCERS } from './state/app.state';
 import { HttpClientModule } from '@angular/common/http';
+import { ModalWarningClientComponent } from './pages/form-client/components/modal-warning-client/modal-warning-client.component';
+import { ModalWarningDataComponent } from './pages/form-client/components/form-data/components/modal-warning-data/modal-warning-data.component';
+import { ModalWarningMuniComponent } from './pages/form-municipality/components/modal-warning-muni/modal-warning-muni.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { HttpClientModule } from '@angular/common/http';
     FormMunicipalityComponent,
     WelcomeComponent,
     FormDataComponent,
-    NameFieldComponent
+    ModalWarningClientComponent,
+    ModalWarningDataComponent,
+    ModalWarningMuniComponent,
   ],
   imports: [
     BrowserModule,
@@ -30,9 +33,9 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     HttpClientModule,
     StoreModule.forRoot(ROOT_REDUCERS),
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() })
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,12 +1,22 @@
-export interface mucipality {
+export interface Municipality {
   id: number;
   name: string;
   departmentId: number;
-  dane: string;
-  distrit: boolean;
+  danecode: string;
+  isCapital: boolean;
 }
 
-export interface department {
-  id: number,
-  name: string
+export interface Department {
+  id: number;
+  name: string;
+}
+
+export interface MuniCreateDTO extends Omit<Municipality, 'id'> {}
+
+export interface MuniRes {
+  data: Municipality[];
+}
+
+export interface DepartmentRes {
+  data: Department[];
 }

@@ -1,10 +1,18 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { Client } from 'src/app/models/client';
+import {
+  Client,
+  ClientCreateDTO,
+  ClientUpdateDTO,
+} from 'src/app/models/client';
 import { ClientService } from 'src/app/services/client.service';
 import { loadClients } from 'src/app/state/actions/client.actions';
-import { selectClientsLoading } from 'src/app/state/selectors/client.selectors';
+import { AppState } from 'src/app/state/app.state';
+import {
+  selectClients,
+  selectClientsLoading,
+} from 'src/app/state/selectors/client.selectors';
 
 @Component({
   selector: 'app-form-client',
@@ -13,41 +21,63 @@ import { selectClientsLoading } from 'src/app/state/selectors/client.selectors';
 })
 export class FormClientComponent {
   loading$: Observable<boolean> = new Observable();
+  clients$: Observable<Client[]> = new Observable();
+  clientToDelete: number = 0;
 
-  clients: Client[] = [];
   showAdd: boolean = false;
-  showUpdate: boolean = false;
-  showData: boolean = false;
   indexUpdate: number | null = null;
   indexData: number | null = null;
   img: string = 'http://localhost:4200/assets/icons/arrow-down.svg';
   nameAdd: string = '';
-  nameUpdate: string | null = '';
+  newName: string = '';
 
   constructor(
-    private store: Store<any>,
+    private store: Store<AppState>,
     private clientService: ClientService
   ) {}
 
   ngOnInit() {
     this.loading$ = this.store.select(selectClientsLoading);
+    this.clients$ = this.store.select(selectClients);
 
-    this.clientService.getDataFalse().subscribe((res) => {
-      console.log(res);
-      this.clients = res.data;
-    });
+    this.clientService.updateClientList();
 
     this.store.dispatch(loadClients());
   }
 
+  onCreateClient() {
+    const dto: ClientCreateDTO = { name: this.nameAdd };
+    this.clientService
+      .createClient(dto)
+      .subscribe(() => this.clientService.updateClientList());
+    this.toggleClient();
+  }
+
+  onUpdateClient(id: number, name: string) {
+    const dto: ClientUpdateDTO = { id: id, name: name };
+    this.clientService.updateClient(dto).subscribe(() => {
+      this.clientService.updateClientList();
+    });
+    this.toggleUpdate(null, '');
+  }
+
+  onDeleteClient(event: boolean) {
+    if (event === true) {
+      this.clientService
+        .deleteClient(this.clientToDelete)
+        .subscribe(() => this.clientService.updateClientList());
+      this.clientToDelete = 0;
+    }
+  }
+
   toggleClient() {
+    this.nameAdd = '';
     this.showAdd = !this.showAdd;
   }
 
-  toggleUpdate(index: number | null, name: string | null) {
+  toggleUpdate(index: number | null, name: string) {
     this.indexUpdate = index;
-    this.nameUpdate = name;
-    this.showUpdate = !this.showUpdate;
+    this.newName = name;
   }
 
   toggleData(index: number) {
@@ -56,7 +86,6 @@ export class FormClientComponent {
     } else {
       this.indexData = index;
     }
-    this.showData = !this.showData;
   }
 
   toggleImg(event: Event) {
