@@ -74,8 +74,12 @@ export class FormClientComponent {
     }
   }
 
-  toggleClient() {
-    this.nameAdd = '';
+  toggleClient(btn?: string) {
+    if (btn === 'add') {
+      this.nameAdd = '';
+      this.showAdd = true;
+      return;
+    }
     this.showAdd = !this.showAdd;
   }
 

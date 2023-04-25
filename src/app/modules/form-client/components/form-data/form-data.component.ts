@@ -23,7 +23,11 @@ export class FormDataComponent {
 
   constructor(private clientService: ClientService) {}
 
-  toggleData() {
+  toggleData(btn?: string) {
+    if (btn === 'add') {
+      this.showFormData = true;
+      return;
+    }
     this.showFormData = !this.showFormData;
   }
 

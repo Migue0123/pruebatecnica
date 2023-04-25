@@ -105,13 +105,17 @@ export class FormMunicipalityComponent {
     }
   }
 
-  toggleForm() {
+  toggleForm(btn?: string) {
     this.newMuni = {
       name: '',
       departmentId: 0,
       danecode: '',
       isCapital: false,
     };
+    if (btn === 'add') {
+      this.showFormMuni = true;
+      return;
+    }
     this.showFormMuni = !this.showFormMuni;
   }
 
