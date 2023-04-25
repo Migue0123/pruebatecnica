@@ -1,5 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
-import { deleteClient, loadClients, loadedClients } from '../actions/client.actions';
+import {
+  deleteClient,
+  loadClients,
+  loadedClients,
+} from '../actions/client.actions';
 import { ClientState } from 'src/app/models/clients.state';
 
 export const initialState: ClientState = { loading: false, clients: [] };

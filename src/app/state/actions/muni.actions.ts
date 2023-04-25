@@ -8,9 +8,7 @@ export const loadedMuni = createAction(
   props<{ municipalities: Municipality[] }>()
 );
 
-export const loadDepartment = createAction(
-  '[Muni List] Load departments'
-);
+export const loadDepartment = createAction('[Muni List] Load departments');
 
 export const loadedDepartment = createAction(
   '[Muni List] Loaded department success',

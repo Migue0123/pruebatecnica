@@ -1,4 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
 body {
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(125,125,189,1) 50%, rgba(0,212,255,1) 100%);
+  background: linear-gradient(
+    90deg,
+    rgba(149, 0, 255, 1) 0%,
+    rgba(78, 6, 222, 1) 25%,
+    rgba(15, 175, 209, 1) 43%,
+    rgba(15, 175, 209, 1) 59%,
+    rgba(78, 6, 222, 1) 75%,
+    rgba(149, 0, 255, 1) 100%
+  );
+  background-size: 400% 400%;
+  animation: gradient 15s ease infinite;
+  height: 100vh;
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }

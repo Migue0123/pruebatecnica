@@ -1,26 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { FormClientComponent } from './pages/form-client/form-client.component';
-import { FormMunicipalityComponent } from './pages/form-municipality/form-municipality.component';
-import { WelcomeComponent } from './pages/welcome/welcome.component';
 
 const routes: Routes = [
   {
+    path: 'home',
+    loadChildren: () => import('./modules').then((m) => m.HomeModule),
+  },
+  {
     path: '',
-    component: WelcomeComponent
+    redirectTo: 'home',
+    pathMatch: 'full',
   },
   {
     path: 'form-client',
-    component: FormClientComponent
+    loadChildren: () => import('./modules').then((m) => m.FormClientModule),
   },
   {
     path: 'form-municipality',
-    component: FormMunicipalityComponent
-  }
+    loadChildren: () =>
+      import('./modules').then((m) => m.FormMunicipalityModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
